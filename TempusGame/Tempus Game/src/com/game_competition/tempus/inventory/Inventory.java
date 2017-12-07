@@ -14,7 +14,7 @@ public class Inventory {
 	
 	private Handler handler;
 	private boolean active = false;
-	private ArrayList<Item> inventoryItems;
+	public ArrayList<Item> inventoryItems;
 	
 	private int invX = 64, invY = 34,
 			invWidth = 512, invHeight = 384,

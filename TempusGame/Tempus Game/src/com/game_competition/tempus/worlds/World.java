@@ -5,8 +5,11 @@ import java.awt.Graphics;
 import com.game_competition.tempus.Handler;
 import com.game_competition.tempus.entities.EntityManager;
 import com.game_competition.tempus.entities.creatures.Player;
-import com.game_competition.tempus.entities.statics.Stone;
+import com.game_competition.tempus.entities.statics.Door;
+import com.game_competition.tempus.entities.statics.TimeAltar;
+import com.game_competition.tempus.entities.statics.WallWood;
 import com.game_competition.tempus.items.ItemManager;
+import com.game_competition.tempus.mechanics.Dialogue;
 import com.game_competition.tempus.mechanics.TimeFrame;
 import com.game_competition.tempus.tiles.Tile;
 import com.game_competition.tempus.utils.Utils;
@@ -18,6 +21,8 @@ public class World {
 	private int spawnX, spawnY;
 	private int[][] tiles;
 	
+	//Dialog
+	private Dialogue dialogue;
 	//Entities
 	private EntityManager entityManager;
 	//Item
@@ -30,24 +35,34 @@ public class World {
 		entityManager = new EntityManager(handler, new Player(handler, 100, 100));
 		itemManager = new ItemManager(handler);
 		timeFrame = new TimeFrame(handler);
+		dialogue = new Dialogue(handler);
 		
 		//ADD ENTITIES HERE
-		entityManager.addEntity(new Stone(handler, 100, 250, width, height));
-		entityManager.addEntity(new Stone(handler, 150, 250, width, height));
-		entityManager.addEntity(new Stone(handler, 200, 250, width, height));
-		entityManager.addEntity(new Stone(handler, 250, 250, width, height));
+		entityManager.addEntity(new Door(handler, 64*2, 64*3, width, height, -1, true));
+		entityManager.addEntity(new Door(handler, 64*6, 64*11, width, height, 1, false));
+		entityManager.addEntity(new TimeAltar(handler, (int)(64*4.5), (int)(64*2.5), width, height));
+		//entityManager.addEntity(new FloorHole(handler, 64*3, 64*5, width, height, 1, false));
+		//entityManager.addEntity(new WallSmallHole(handler, 64*1, 64*6, width, height, true));
+		//entityManager.addEntity(new WallBroken(handler, 64*2, 64*6, width, height, 1, false));
+		entityManager.addEntity(new WallWood(handler, 64*6, 64*7, width, height, 1, false));
+		//entityManager.addEntity(new Stone(handler, 100, 250, width, height));
+		//entityManager.addEntity(new Stone(handler, 150, 250, width, height));
+		//entityManager.addEntity(new Stone(handler, 200, 250, width, height));
+		//entityManager.addEntity(new Stone(handler, 250, 250, width, height));
 		
 		loadWorld(path);
 		
 		
 		entityManager.getPlayer().setX(spawnX);
 		entityManager.getPlayer().setY(spawnY);
+		
 	}
 		
 	public void tick() {
-			itemManager.tick();
-			entityManager.tick();
-			timeFrame.tick();
+		itemManager.tick();
+		entityManager.tick();
+		timeFrame.tick();
+		dialogue.tick();
 	}
 		
 	public void render(Graphics g) {
@@ -64,15 +79,20 @@ public class World {
 		}
 		itemManager.render(g);
 		entityManager.render(g);
+		timeFrame.render(g);
+		dialogue.render(g);
+		
+		
+		
 	}
 		
 	public Tile getTile(int x, int y) {
-		if(x<0 || y<0 || x>+height || y>=height) {
-			return Tile.grassTile;
+		if(x<0 || y<0 || x>=width || y>=height) {
+			return Tile.floorTile;
 		}
 		Tile t = Tile.tiles[tiles[x][y]];
 		if(t == null)
-			return Tile.dirtTile;
+			return Tile.floorTile;
 		return t;
 	}
 		
@@ -129,6 +149,14 @@ public class World {
 
 	public void setTimeFrame(TimeFrame timeFrame) {
 		this.timeFrame = timeFrame;
+	}
+
+	public Dialogue getDialogue() {
+		return dialogue;
+	}
+
+	public void setDialogue(Dialogue dialogue) {
+		this.dialogue = dialogue;
 	}
 }
 

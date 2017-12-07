@@ -29,6 +29,7 @@ public class Handler {
 	public int getHeight() {
 		return game.getHeight();
 	}
+	
 	public Handler(Game game){
 		this.game = game;
 		

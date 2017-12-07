@@ -31,6 +31,7 @@ public class Game implements Runnable {
 	//STATES
 	public State gameState;
 	public State menuState;
+	public State controlsState;
 	
 	//INPUT
 	private KeyManager keyManager;
@@ -66,6 +67,7 @@ public class Game implements Runnable {
 		
 		gameState = new GameState(handler);
 		menuState = new MenuState(handler);
+		//settingsState = new settingsState(handler);
 		State.setState(menuState);
 		
 		
@@ -102,7 +104,6 @@ public class Game implements Runnable {
 	
 	public void run() {
 		init();
-		
 		int fps = 60;
 		double timePerClick = 1000000000/fps;
 		double delta = 0;

@@ -20,12 +20,14 @@ public class UIManager {
 	public void tick() {
 		for(UIObject o : objects) {
 			o.tick();
+			
 		}
 	}
 	
 	public void render(Graphics g) {
 		for(UIObject o : objects) {
 			o.render(g);
+			
 		}
 	}
 	
@@ -46,7 +48,7 @@ public class UIManager {
 	}
 	
 	public void removeObject(UIObject o) {
-		
+		objects.remove(o);
 	}
 
 }

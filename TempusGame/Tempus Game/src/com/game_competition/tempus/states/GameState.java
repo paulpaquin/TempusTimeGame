@@ -5,10 +5,12 @@ import java.awt.Graphics;
 import com.game_competition.tempus.Handler;
 import com.game_competition.tempus.entities.creatures.Player;
 import com.game_competition.tempus.entities.statics.Stone;
+import com.game_competition.tempus.ui.UIManager;
 import com.game_competition.tempus.worlds.World;
 
 
 public class GameState extends State{
+	//private UIManager uiManager;
 	//private State newMenuState;
 	
 	@SuppressWarnings("unused")
@@ -25,17 +27,22 @@ public class GameState extends State{
 		player = new Player(handler, 100,100);
 		stone = new Stone(handler, 100, 200, 0, 0);
 		
+		
+		
 	}
 
 	@Override
 	public void tick() {
 		world.tick();
+		
 		if(handler.getKeyManager().escape) {
+			
 			State.setState(handler.getGame().menuState);
+			//handler.getMouseManager().setUIManager(uiManager);
 			return;
 		}
 		
-		System.out.println(handler.getWorld().getTimeFrame().getCurrentTimeFrame());
+		//System.out.println(handler.getWorld().getTimeFrame().getCurrentTimeFrame());
 		//System.out.println(handler.getMouseManager().getWheelPosition());
 		
 	}
